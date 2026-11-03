@@ -206,8 +206,8 @@ fn flag(app: &mut WordApp, ui: &mut Ui, label: &str, key: &str, value: bool) {
     }
 }
 
-/// Draws General options: interface theme and size, mini toolbar, dark page, community button and
-/// default apps; the Start screen; and personalization such as user name and initials.
+/// Draws General options: interface theme and size, mini toolbar, dark page and default apps; the
+/// Start screen; and personalization such as user name and initials.
 fn general(app: &mut WordApp, ui: &mut Ui) {
     section(ui, "Interface");
     theme_picker(app, ui);
