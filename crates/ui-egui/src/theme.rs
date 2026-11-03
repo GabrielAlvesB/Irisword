@@ -4,7 +4,7 @@ use std::sync::Arc;
 
 use egui::{Align2, Color32, CornerRadius, FontData, FontDefinitions, FontFamily, FontId, Rect, Stroke, Visuals};
 
-/// WordCraft's app colour (and its darker ink for text on light backgrounds).
+/// IrisWord's app colour (and its darker ink for text on light backgrounds).
 pub const APP_COLOR: Color32 = Color32::from_rgb(0x3B, 0x5B, 0xDB);
 pub const APP_INK: Color32 = Color32::from_rgb(0x2B, 0x47, 0xB5);
 
@@ -944,7 +944,7 @@ mod tests {
     }
 
     /// The test root declares egui's `default_fonts` and `monochrome_emoji_fonts` features
-    /// explicitly (kittest's own dev-dependencies do not propagate). WordCraft inserts Inter at
+    /// explicitly (kittest's own dev-dependencies do not propagate). IrisWord inserts Inter at
     /// the front and SourceSans after egui's complete default fallback block, including the
     /// monochrome emoji faces. Production keeps only `default_fonts` through eframe.
     #[test]

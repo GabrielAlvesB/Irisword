@@ -9,17 +9,17 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DIR="$ROOT/assets/app-icon"
 SVG="$DIR/wordcraft.svg"
-ID="ai.storyteller.wordcraft"
+ID="com.iris.irisword"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
 command -v resvg >/dev/null || { echo "error: resvg not found (brew install resvg)" >&2; exit 1; }
 
-# The artwork is a full-bleed 512 tile (rx=112). Windows and Linux use it as is. macOS icons sit on
-# Apple's grid: an 824/1024 body with a transparent margin, so widen the viewBox to 512*1024/824.
+# The artwork is the Iris icon (viewBox 1024). Windows and Linux use it as is. macOS icons sit on
+# Apple's grid: an 824/1024 body with a transparent margin, so widen the viewBox to 1024*1024/824.
 MAC="$TMP/mac.svg"
-sed 's/viewBox="0 0 512 512"/viewBox="-62.136 -62.136 636.272 636.272"/' "$SVG" >"$MAC"
-grep -q 'viewBox="-62.136' "$MAC" || { echo "error: expected viewBox=\"0 0 512 512\" in $SVG" >&2; exit 1; }
+sed 's/viewBox="0 0 1024 1024"/viewBox="-124.272 -124.272 1272.544 1272.544"/' "$SVG" >"$MAC"
+grep -q 'viewBox="-124.272' "$MAC" || { echo "error: expected viewBox=\"0 0 1024 1024\" in $SVG" >&2; exit 1; }
 
 render() {
   local src="$1" size="$2" dst="$3"
