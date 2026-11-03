@@ -64,12 +64,29 @@ fn craft_i18n() -> String {
     let mut o = String::from("/// (locale, shared catalog, IrisWord's catalog), one entry per locale; `\"\"` for a missing file.\n");
     o.push_str("pub static CRAFT_I18N: &craft_i18n::Embedded = &[\n");
     for (code, shared, app) in entries {
+        let app = match rebranded(&code, &app) {
+            Ok(p) => p,
+            Err(e) => {
+                println!("cargo::error=CRAFT_I18N_DIR: {e}");
+                continue;
+            }
+        };
         // `{:?}` escapes the path (Windows backslashes) as a Rust string literal.
         let shared = shared.map_or_else(|| "\"\"".to_string(), |p| format!("include_str!({p:?})"));
         let _ = writeln!(o, "    ({code:?}, {shared}, include_str!({app:?})),");
     }
     o.push_str("];\n");
     o
+}
+
+/// The app catalog with this app's name. craft-i18n's English keys and their translations say
+/// WordCraft where the interface says IrisWord, so a copy in `OUT_DIR` swaps the name in both and
+/// the translated strings still match.
+fn rebranded(code: &str, app: &std::path::Path) -> Result<std::path::PathBuf, String> {
+    let text = std::fs::read_to_string(app).map_err(|e| format!("{}: {e}", app.display()))?;
+    let out = std::path::PathBuf::from(std::env::var_os("OUT_DIR").unwrap_or_default()).join(format!("craft_i18n_{code}.tsv"));
+    std::fs::write(&out, text.replace("WordCraft", "IrisWord")).map_err(|e| format!("{}: {e}", out.display()))?;
+    Ok(out)
 }
 
 /// A locale's code, its `common.tsv` if any, and its app catalog.
