@@ -1,5 +1,45 @@
 # IrisWord — instructions for agents
 
+## LEIA PRIMEIRO: o IrisWord é uma cópia modificada do WordCraft
+
+**Esta seção vale mais que todo o resto do arquivo.** O resto veio do WordCraft; onde ele contradizer esta seção, esta seção vence.
+
+O IrisWord é uma cópia (fork) do [WordCraft](https://github.com/storytold/wordcraft), da equipe ArtCraft, adaptada para o ecossistema Iris por **Gabriel Alves Tech**. O repositório é `GabrielAlvesB/Irisword` (remote `origin`); o WordCraft original é o remote `upstream`, usado **só para trazer atualizações**: nunca envie nada para ele.
+
+Todos os ajustes listados abaixo foram feitos de propósito. **Nenhuma atualização vinda do WordCraft pode desfazê-los.** Ao trazer uma versão nova, o trabalho é incorporar as melhorias do WordCraft **mantendo o IrisWord como ele é**. Em qualquer conflito entre o código do WordCraft e um ajuste do IrisWord, fica o do IrisWord. Na dúvida, pergunte ao dono antes de mudar.
+
+### O que é do IrisWord e não pode ser revertido
+
+1. **Nome visível "IrisWord"** em tudo que o usuário vê: título da janela, Sobre, mensagens, README, instaladores, pacotes. "WordCraft" só aparece nos créditos e avisos de copyright (`LICENSE-MIT`, `NOTICE`, linha de copyright do Sobre, seção de licença do README e o texto "Based on WordCraft"); esses avisos são exigidos pela licença e também não podem ser removidos.
+2. **ID do app `com.iris.irisword`** (nunca `ai.storyteller.wordcraft`): `apps/wordcraft/src/main.rs` (`with_app_id`), `apps/wordcraft/src/default_apps.rs`, `packaging/linux/com.iris.irisword.*`, `packaging/macos/Info.plist.in`, os ícones em `assets/app-icon/hicolor/*/apps/`.
+3. **Ícone do IrisWord** (folha com dobra e "W", gradiente `#8a79ff` → `#bd44c0`): a fonte é `assets/app-icon/wordcraft.svg`; todo PNG, `.ico` e `.icns` de `assets/app-icon/` é gerado dela (`packaging/icons.sh`, viewBox 64). Nunca aceite ícones do WordCraft por cima destes.
+4. **Sem marca ArtCraft**: sem `docs/brand/`, sem logos ArtCraft, sem links para `getartcraft.com` ou `discord.gg/artcraft`, sem botões de Discord (`show_discord: false` em `crates/ui-egui/src/lib.rs`; removidos da faixa Revisão, do menu Arquivo, das dicas de teclas e das Opções; o comando `ui.discord` abre o repositório do IrisWord). Se uma atualização trouxer menções novas à ArtCraft ou à suíte Crafting Apps na interface, retire-as. A licença de marca da ArtCraft exige isso de forks.
+5. **Atualizador** (`UPDATE_APP` em `crates/ui-egui/src/lib.rs`): `name: "IrisWord"`, `repo: "GabrielAlvesB/Irisword"` (exatamente assim: o atualizador compara os links diferenciando maiúsculas), `developer: "Gabriel Alves Tech"`. Nunca volte para `craft_update::suite::WORDCRAFT` puro: o app passaria a baixar o WordCraft por cima do IrisWord. A verificação ao abrir fica ligada (`set_startup_update_check(true)` em `apps/wordcraft/src/main.rs`).
+6. **Instalador do Windows** (`packaging/windows/`): `UpgradeCode` `04860637-0499-49FE-8614-D5547523F3DB` e GUIDs de componentes próprios (nunca os do WordCraft, senão um instalador substitui o outro), fabricante `Gabriel Alves Tech`, pasta `Programs\Iris\IrisWord`, chaves de registro `Software\IrisWord`. Em `apps/wordcraft/build.rs`, `CompanyName` é `Gabriel Alves Tech`.
+7. **Traduções**: `crates/ui-egui/build.rs` (`rebranded`) copia o catálogo do craft-i18n trocando WordCraft por IrisWord, para os textos renomeados continuarem traduzidos (a interface sai em português). Não remova.
+8. **CI próprio**: `.github/workflows/ci.yml` é autocontido (sem segredos, token só de leitura, actions fixadas por SHA). **Nunca restaure** os workflows do WordCraft (`storytold/craft-common-actions@...`, SonarCloud, release, FreeBSD, nix, printing, windows-arm64), nem `sonar-project.properties` ou `.coderabbit.yaml`: eles rodam código de outra organização e repassam segredos. O Dependabot roda semanalmente (`America/Sao_Paulo`).
+9. **Segurança**: `zip` na versão 9 ou mais nova (`Cargo.toml` do workspace). Não volte para versões antigas (RUSTSEC-2026-0367/0368/0369/0429).
+10. **Nomes internos mantidos de propósito**: crates `wordcraft-*`, binários `wordcraft.exe` e `wordcraft-cli`, arquivos `assets/app-icon/wordcraft.*`, variáveis `WORDCRAFT_*` e os nomes dos arquivos de release (`wordcraft-<versão>-windows-<arq>.msi`, `...-portable.zip`). O atualizador e o Workspace do Iris (`../Iris/src/shared/types/workspace.types.ts`) procuram exatamente esses nomes. Não renomeie.
+
+### Como trazer uma atualização do WordCraft
+
+1. `git fetch upstream --tags` e escolha a tag nova (por exemplo `v0.16.0`). Faça o merge numa branch: `git switch -c update-wordcraft-0.16.0 && git merge v0.16.0`.
+2. Resolva os conflitos mantendo **tudo** da lista acima. Arquivos removidos no IrisWord (`docs/brand/`, workflows antigos, `sonar-project.properties`, `.coderabbit.yaml`) continuam removidos.
+3. Procure o que entrou de novo com a marca antiga e adapte: `git grep -n -e WordCraft -e ArtCraft -e getartcraft -e discord.gg -e ai.storyteller -e "storytold/wordcraft/releases"`. Texto visível novo vira IrisWord; avisos de copyright e créditos ficam como estão.
+4. Arquivos novos em `.github/workflows/` vindos do WordCraft: apague. Ícones ou imagens novas de marca: não adote.
+5. Se `craft-i18n.rev` mudou, atualize `../craft-i18n` para esse commit. Se a revisão de `craft-libs` mudou, confira se `craft_update::app::App` ainda aceita os campos do `UPDATE_APP`.
+6. Rode `cargo audit` e os testes com as traduções (`CRAFT_I18N_DIR` apontando para `../craft-i18n`, caminho absoluto): `cargo test --no-fail-fast -p wordcraft-doc -p wordcraft-docx -p wordcraft-formats -p wordcraft-engine -p wordcraft-control-key -p wordcraft-ui-egui -p xtask`.
+7. **Versão**: a versão do IrisWord (`[workspace.package]` no `Cargo.toml`) precisa ser **maior que a da última release do IrisWord**, senão o atualizador não oferece a nova. Rode `cargo update -w` depois de mudar.
+8. Mostre ao dono o que mudou antes de fazer merge na `main` e de publicar release.
+
+### Como publicar uma release
+
+1. Versão nova no `Cargo.toml`, `cargo update -w`, commit e push na `main`.
+2. Com `CRAFT_I18N_DIR` definido, rode `packaging/windows/package.ps1 -Arch x64` num processo `powershell.exe` separado, com a saída indo para arquivo (no PowerShell 5.1, redirecionar dentro do mesmo processo transforma avisos do cargo em erro fatal). Saída em `dist/release/`.
+3. Gere `dist/release/SHA256SUMS.txt` no formato `hash  nome` (dois espaços, sem `*`). O Workspace do Iris não instala sem ele.
+4. `gh release create v<versão> -R GabrielAlvesB/Irisword --title "IrisWord v<versão>" --notes-file <notas.md> --latest` com o `.msi`, o `-portable.zip` e o `SHA256SUMS.txt`. Notas em português.
+5. Os builds não têm assinatura Authenticode, então o próprio IrisWord só avisa da versão nova e abre a página da release; a instalação automática acontece pelo Workspace do Iris.
+
 IrisWord is a clean-room, open-source, Rust-native word processor targeting Microsoft Word parity — and going further on speed, openness and agent control. It runs natively on macOS, Windows, Linux and BSD, and on the web via WASM. Siblings with the same conventions: `../photocraft` (Photoshop), `../vectorcraft` (Illustrator), `../filmcraft` (Premiere), `../lightcraft` (Lightroom), `../pdfcraft` (Acrobat), `../effectcraft` (After Effects), `../designcraft` (InDesign).
 
 ## Start every session here
@@ -66,6 +106,5 @@ Typing, Enter, Backspace, Tab, lists, AutoCorrect and AutoFormat follow Word's o
 Progress docs: `ROADMAP.md` (stage, headline numbers, progress log), `docs/target-app-parity.md` (the assessment), `docs/gaps.md` (ranked work list), `docs/roadmap.md` (milestones, Current focus), `docs/architecture.md`, and the parity checklists `docs/file-format-parity.md`, `docs/layout-parity.md`, `docs/typing-parity.md`, `docs/ui-parity.md`, `docs/hardware-parity.md`, `docs/localization-parity.md`. When work lands, update the gap, the parity doc and the progress log, and bump each touched doc's status line and revision history.
 
 ## CI workflows
-- Workflows in `.github/workflows/` call the shared workflows in [`storytold/craft-common-actions`](https://github.com/storytold/craft-common-actions) at `@main`, with their inputs and secrets. No other jobs: if no shared workflow does what's needed, it doesn't go here.
-- Don't add or change CI in a feature or fix PR. If the existing workflows can't build or test a change, link an existing craft-common-actions issue or PR, or open a new issue, or a PR only for a small fix that is safe for every app and does not increase CI time.
-- Some workflow files here still run their own jobs. Don't add to them. Moving a job into craft-common-actions is its own task, never part of another PR, and the job stays here until a shared workflow runs it.
+- The IrisWord CI is `.github/workflows/ci.yml` alone: self-contained, read-only token, no secrets, third-party actions pinned by SHA, craft-i18n fetched at the commit in `craft-i18n.rev`. Never call `storytold/craft-common-actions` or any other organisation's reusable workflow, and never pass secrets to one (see "LEIA PRIMEIRO", item 8).
+- Don't add or change CI in a feature or fix PR; a CI change is its own commit.

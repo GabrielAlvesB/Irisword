@@ -1,5 +1,10 @@
 # IrisWord — instructions for agents
 
+> **LEIA PRIMEIRO:** o IrisWord é uma cópia modificada do WordCraft, adaptada para o ecossistema Iris.
+> Antes de qualquer mudança, e principalmente antes de trazer uma atualização do WordCraft, leia a seção
+> "LEIA PRIMEIRO" do [`CLAUDE.md`](CLAUDE.md): ela lista os ajustes do IrisWord que nunca podem ser desfeitos
+> e vale mais que o resto deste arquivo, que veio do WordCraft.
+
 IrisWord is a clean-room, open-source, Rust-native word processor targeting Microsoft Word parity — and going further on speed, openness and agent control. It runs natively on macOS, Windows, Linux and BSD, and on the web via WASM. Siblings with the same conventions: `../photocraft` (Photoshop), `../vectorcraft` (Illustrator), `../filmcraft` (Premiere), `../lightcraft` (Lightroom), `../pdfcraft` (Acrobat), `../effectcraft` (After Effects), `../designcraft` (InDesign).
 
 ## Start every session here
@@ -82,6 +87,5 @@ Progress docs: `ROADMAP.md` (stage, headline numbers, progress log), `docs/targe
   GitHub profiles). Never hand-edit `contributors.json`.
 
 ## CI workflows
-- Workflows in `.github/workflows/` call the shared workflows in [`storytold/craft-common-actions`](https://github.com/storytold/craft-common-actions) at `@main`, with their inputs and secrets. No other jobs: if no shared workflow does what's needed, it doesn't go here.
-- Don't add or change CI in a feature or fix PR. If the existing workflows can't build or test a change, link an existing craft-common-actions issue or PR, or open a new issue, or a PR only for a small fix that is safe for every app and does not increase CI time.
-- Some workflow files here still run their own jobs. Don't add to them. Moving a job into craft-common-actions is its own task, never part of another PR, and the job stays here until a shared workflow runs it.
+- The IrisWord CI is `.github/workflows/ci.yml` alone: self-contained, read-only token, no secrets, third-party actions pinned by SHA, craft-i18n fetched at the commit in `craft-i18n.rev`. Never call `storytold/craft-common-actions` or any other organisation's reusable workflow, and never pass secrets to one (see `CLAUDE.md`, "LEIA PRIMEIRO", item 8).
+- Don't add or change CI in a feature or fix PR; a CI change is its own commit.
