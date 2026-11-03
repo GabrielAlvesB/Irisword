@@ -183,9 +183,9 @@ impl Server {
                 Ok(json!({
                     "protocolVersion": version,
                     "capabilities": {"tools": {}, "resources": {}},
-                    "serverInfo": {"name": "wordcraft", "title": "IrisWord", "version": env!("CARGO_PKG_VERSION"), "websiteUrl": "https://github.com/GabrielAlvesB/IrisWord"},
+                    "serverInfo": {"name": "wordcraft", "title": "IrisWord", "version": env!("CARGO_PKG_VERSION"), "websiteUrl": "https://github.com/GabrielAlvesB/Irisword"},
                     "instructions": format!(
-                        "{INSTRUCTIONS} Backend: {}. Source: https://github.com/GabrielAlvesB/IrisWord",
+                        "{INSTRUCTIONS} Backend: {}. Source: https://github.com/GabrielAlvesB/Irisword",
                         self.backend.describe()
                     ),
                 }))

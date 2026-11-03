@@ -25,7 +25,7 @@ pub fn export(doc: &Document) -> String {
 
     let meta = &flow.meta;
     let mut o = String::new();
-    o.push_str("% Written by IrisWord (https://github.com/GabrielAlvesB/IrisWord).\n");
+    o.push_str("% Written by IrisWord (https://github.com/GabrielAlvesB/Irisword).\n");
     o.push_str("\\documentclass{article}\n");
     o.push_str("\\usepackage[T1]{fontenc}\n");
     if w.uses.ulem {

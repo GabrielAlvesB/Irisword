@@ -18,10 +18,10 @@
   <launchable type="desktop-id">com.iris.irisword.desktop</launchable>
   <icon type="stock">com.iris.irisword</icon>
   <!-- Only url types known to appstream 0.15 (Ubuntu 22.04, where CI validates): no vcs-browser. -->
-  <url type="homepage">https://github.com/GabrielAlvesB/IrisWord</url>
+  <url type="homepage">https://github.com/GabrielAlvesB/Irisword</url>
   <url type="bugtracker">https://github.com/storytold/wordcraft/issues</url>
   <url type="help">https://github.com/storytold/wordcraft</url>
-  <url type="contact">https://github.com/GabrielAlvesB/IrisWord/issues</url>
+  <url type="contact">https://github.com/GabrielAlvesB/Irisword/issues</url>
   <categories>
     <category>Office</category>
     <category>WordProcessor</category>

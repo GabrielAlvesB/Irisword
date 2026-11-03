@@ -746,7 +746,7 @@ impl WordApp {
                 ));
             }
             "ui.discord" => {
-                self.canvas.open_url = Some("https://github.com/GabrielAlvesB/IrisWord".into());
+                self.canvas.open_url = Some("https://github.com/GabrielAlvesB/Irisword".into());
                 json!({})
             }
             "ui.caretAnimation" => {

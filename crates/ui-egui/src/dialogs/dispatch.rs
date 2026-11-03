@@ -1090,7 +1090,7 @@ fn about_dialog(ui: &mut Ui, d: &mut Dialog) -> bool {
             ui.label(crate::i18n::fmt(tl!("Version {version} ({build})"), &[("version", env!("CARGO_PKG_VERSION")), ("build", build)]));
             ui.label(tl!("A free, open-source word processor written in Rust.\nPart of the Iris ecosystem. Based on WordCraft by the ArtCraft team."));
             ui.add_space(6.0);
-            ui.hyperlink_to(tl!("Source code: github.com/GabrielAlvesB/IrisWord"), "https://github.com/GabrielAlvesB/IrisWord");
+            ui.hyperlink_to(tl!("Source code: github.com/GabrielAlvesB/Irisword"), "https://github.com/GabrielAlvesB/Irisword");
             ui.hyperlink_to(tl!("Original project: github.com/storytold/wordcraft"), "https://github.com/storytold/wordcraft");
             ui.add_space(6.0);
             ui.label(egui::RichText::new(tl!("MIT OR Apache-2.0. Copyright (c) 2026 ArtCraft Team and the WordCraft contributors.")).small().weak());

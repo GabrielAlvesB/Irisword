@@ -15,11 +15,11 @@ trap 'rm -rf "$TMP"' EXIT
 
 command -v resvg >/dev/null || { echo "error: resvg not found (brew install resvg)" >&2; exit 1; }
 
-# The artwork is the Iris icon (viewBox 1024). Windows and Linux use it as is. macOS icons sit on
-# Apple's grid: an 824/1024 body with a transparent margin, so widen the viewBox to 1024*1024/824.
+# The artwork is a 56-unit tile at 4..60 in a 64 viewBox. Windows and Linux use it as is. macOS icons
+# sit on Apple's grid: an 824/1024 body with a transparent margin, so widen the viewBox to 56*1024/824.
 MAC="$TMP/mac.svg"
-sed 's/viewBox="0 0 1024 1024"/viewBox="-124.272 -124.272 1272.544 1272.544"/' "$SVG" >"$MAC"
-grep -q 'viewBox="-124.272' "$MAC" || { echo "error: expected viewBox=\"0 0 1024 1024\" in $SVG" >&2; exit 1; }
+sed 's/viewBox="0 0 64 64"/viewBox="-2.796 -2.796 69.592 69.592"/' "$SVG" >"$MAC"
+grep -q 'viewBox="-2.796' "$MAC" || { echo "error: expected viewBox=\"0 0 64 64\" in $SVG" >&2; exit 1; }
 
 render() {
   local src="$1" size="$2" dst="$3"

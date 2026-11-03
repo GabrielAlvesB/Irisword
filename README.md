@@ -201,7 +201,7 @@ closer pagination fidelity, a stability sweep and native printing. Details and e
 
 ## Downloads
 
-**Download IrisWord** from GitHub: the [latest release](https://github.com/GabrielAlvesB/IrisWord/releases/latest) has every build listed below, and [all releases](https://github.com/GabrielAlvesB/IrisWord/releases) has earlier versions and their notes. `<ver>` in the file names is the version number, and `SHA256SUMS.txt` lists a checksum for every file.
+**Download IrisWord** from GitHub: the [latest release](https://github.com/GabrielAlvesB/Irisword/releases/latest) has every build listed below, and [all releases](https://github.com/GabrielAlvesB/Irisword/releases) has earlier versions and their notes. `<ver>` in the file names is the version number, and `SHA256SUMS.txt` lists a checksum for every file.
 
 ### Windows
 
