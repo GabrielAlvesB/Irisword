@@ -19,8 +19,8 @@
   <icon type="stock">com.iris.irisword</icon>
   <!-- Only url types known to appstream 0.15 (Ubuntu 22.04, where CI validates): no vcs-browser. -->
   <url type="homepage">https://github.com/GabrielAlvesB/Irisword</url>
-  <url type="bugtracker">https://github.com/storytold/wordcraft/issues</url>
-  <url type="help">https://github.com/storytold/wordcraft</url>
+  <url type="bugtracker">https://github.com/GabrielAlvesB/Irisword/issues</url>
+  <url type="help">https://github.com/GabrielAlvesB/Irisword</url>
   <url type="contact">https://github.com/GabrielAlvesB/Irisword/issues</url>
   <categories>
     <category>Office</category>
@@ -35,7 +35,7 @@
   <screenshots>
     <screenshot type="default">
       <caption>The Open Studio Handbook sample with the Navigation pane</caption>
-      <image>https://raw.githubusercontent.com/storytold/wordcraft/main/docs/images/hero.png</image>
+      <image>https://raw.githubusercontent.com/GabrielAlvesB/Irisword/main/docs/images/hero.png</image>
     </screenshot>
   </screenshots>
   <branding>
