@@ -44,6 +44,15 @@ jobs:
           git -C "$RUNNER_TEMP/craft-i18n" checkout -q FETCH_HEAD
           echo "CRAFT_I18N_DIR=$RUNNER_TEMP/craft-i18n" >> "$GITHUB_ENV"
 
+      # Interface fonts (Arabic, Japanese, Georgian…; OFL), at the commit pinned in craft-fonts.rev.
+      - name: craft-fonts
+        shell: bash
+        run: |
+          git init -q "$RUNNER_TEMP/craft-fonts"
+          git -C "$RUNNER_TEMP/craft-fonts" fetch -q --depth 1 https://github.com/storytold/craft-fonts "$(cat craft-fonts.rev)"
+          git -C "$RUNNER_TEMP/craft-fonts" checkout -q FETCH_HEAD
+          echo "CRAFT_FONTS_DIR=$RUNNER_TEMP/craft-fonts" >> "$GITHUB_ENV"
+
       - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec # stable
 
       - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
